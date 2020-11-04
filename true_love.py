@@ -1,4 +1,4 @@
-#last update for loop 2
+#last update for loop 3
 names=[]
 sum=0
 count_true = {'t':0,'r':0,'u':0,'e':0,'l':0,'o':0,'v':0}
