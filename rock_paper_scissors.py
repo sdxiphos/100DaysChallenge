@@ -2,6 +2,7 @@
 import random
 
 game_on =True
+test = [0,1,2]
 rock_paper_scissors = ["""
     _______
 ---'   ____)
@@ -24,6 +25,28 @@ rock_paper_scissors = ["""
       (____)
 ---.__(___)
 """]
+
+def game_finish_control(game_winning_control):
+
+    if game_winning_control=='d':
+        print('Draw!\n')
+    elif game_winning_control=='w':
+        print('You Win!\n')
+    else:
+        print('You Lose!\n')
+
+
+def game_start_control(game_winning_control):
+
+    game_finish_control(game_winning_control)
+    restart_choice = input('Please write "y" for start the game, "n" for exit\n ').lower()
+    if restart_choice != 'y':
+        return False
+        print('See you again!\n')   
+    else:
+        return True
+
+
 while game_on == True:
     
     print('Welcome To The Ancient Game\n')
@@ -37,83 +60,40 @@ while game_on == True:
     gamer_choice = random.randint(0,2)
     print(rock_paper_scissors[gamer_choice])
 
-    if your_choice == 0:
-        if gamer_choice == 1:
-            print('You Lose!\n')
-            restart_choice = input('Please write "y" for start the game, "n" for exit\n ').lower()
-            if restart_choice != 'y':
-                game_on=False
-                print('See you again!\n')
-            else:
-                pass
+    if test[your_choice-1] == gamer_choice :
+        game_on = game_start_control('w')
+    elif test[your_choice+1] == gamer_choice:
+        game_on = game_start_control('l')
+    else:
+        game_on = game_start_control('d')
 
-        elif gamer_choice == 0:
-            print('Draw!\n')
-            restart_choice = input('Please write "y" for start the game, "n" for exit\n ').lower()
-            if restart_choice != 'y':
-                game_on=False
-                print('See you again!\n')
-            else:
-                pass
-        else:
-            print('You win')
-            restart_choice = input('Please write "y" for start the game, "n" for exit\n ').lower()
-            if restart_choice != 'y':
-                game_on=False
-                print('See you again!\n')
-            else:
-                pass
 
-    if your_choice == 1:
-        if gamer_choice == 2:
-            print('You Lose!\n')
-            restart_choice = input('Please write "y" for start the game, "n" for exit\n ').lower()
-            if restart_choice != 'y':
-                game_on=False
-                print('See you again!\n')
-            else:
-                pass
 
-        elif gamer_choice == 1:
-            print('Draw!\n')
-            restart_choice = input('Please write "y" for start the game, "n" for exit\n ').lower()
-            if restart_choice != 'y':
-                game_on=False
-                print('See you again!\n')
-            else:
-                pass            
-        else:
-            print('You win')
-            restart_choice = input('Please write "y" for start the game, "n" for exit\n ').lower()
-            if restart_choice != 'y':
-                game_on=False
-                print('See you again!\n')
-            else:
-                pass
+    # if your_choice == 0:
+    #     if gamer_choice == 1:
+    #         game_start_control('l')
+
+    #     elif gamer_choice == 0:
+    #         game_start_control('d')
+    #     else:
+    #         game_start_control('w')
+
+    # if your_choice == 1:
+    #     if gamer_choice == 2:
+    #         game_start_control('l')
+
+    #     elif gamer_choice == 1:
+    #         game_start_control('d')         
+    #     else:
+    #         game_start_control('w')
             
 
-    if your_choice == 2:
-        if gamer_choice == 0:
-            print('You Lose!\n')
-            restart_choice = input('Please write "y" for start the game, "n" for exit\n ').lower()
-            if restart_choice != 'y':
-                game_on=False
-                print('See you again!\n')
-            else:
-                pass
-        elif gamer_choice == 2:
-            print('Draw!\n')
-            restart_choice = input('Please write "y" for start the game, "n" for exit\n ').lower()
-            if restart_choice != 'y':
-                game_on=False
-                print('See you again!\n')
-            else:
-                pass
-        else:
-            print('You win')
-            restart_choice = input('Please write "y" for start the game, "n" for exit\0n ').lower()
-            if restart_choice != 'y':
-                game_on=False
-                print('See you again!\n')
-            else:
-                pass
+    # if your_choice == 2:
+    #     if gamer_choice == 0:
+    #         game_start_control('l')
+
+    #     elif gamer_choice == 2:
+    #         game_start_control('d')
+
+    #     else:
+    #         game_start_control('w')
