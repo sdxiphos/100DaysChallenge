@@ -4,14 +4,14 @@ direction = input("Type 'encode' to encrypt, type 'decode' to decrypt:\n")
 text = input("Type your message:\n").lower()
 shift = int(input("Type the shift number:\n"))
 
-def encrypt(text,shift):
+def encrypt(plane_text,shift_amount):
     encrypt_text=''
     for item in text:
         if item in alphabet:  
                 encrypt_text += alphabet[(alphabet.index(item)+shift)%len(alphabet)]
     return encrypt_text
 
-def decrypt(text,shift):
+def decrypt(plane_text,shift_amount):
     decrypt_text=''
     for item in text:
         if item in alphabet:
@@ -21,10 +21,9 @@ def decrypt(text,shift):
 
 if direction=='encode':
 
-    print(f'Your encrypted letter: {encrypt(text,shift)}')
+    print(f'Your encrypted letter: {encrypt(plane_text=text,shift_amount=shift)}')
 elif direction=='decode':
-    shift=2
-    print(f'Your decrypted letter: {decrypt(text,shift)}')
+    print(f'Your decrypted letter: {decrypt(plane_text=text,shift_amount=shift)}')
 else:
     print('You entered wrong type! Try again! \n')
     pass
