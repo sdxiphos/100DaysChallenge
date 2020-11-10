@@ -7,8 +7,8 @@ shift = int(input("Type the shift number:\n"))
 def encrypt(text,shift):
     encrypt_text=''
     for item in text:
-        if item in alphabet:
-            encrypt_text += alphabet[alphabet.index(item)+shift]
+        if item in alphabet:  
+                encrypt_text += alphabet[(alphabet.index(item)+shift)%len(alphabet)]
     return encrypt_text
 
 def decrypt(text,shift):
