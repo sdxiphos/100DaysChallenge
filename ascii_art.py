@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 #9.Day
 auction_house='''
 
