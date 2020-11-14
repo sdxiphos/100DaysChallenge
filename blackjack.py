@@ -89,8 +89,7 @@ def control_winners(winner):
 
 
 def show_winning_hand(winner):
-    control_winners(winner)
-    global winners
+
     for winner in winners:
         print(f'{winner} win the game!\n')
         user_hand=[]
@@ -100,8 +99,8 @@ def show_winning_hand(winner):
             print(f'{card[0]} of {card[1]}')
 
 
-def give_price(winner):
-    global winners
+def give_price(winners):
+
     total_bet = 0
     own_bet = 0
     for player in players:
@@ -179,38 +178,47 @@ def busted_control(player):
 
     
 def clear_data():
-    players=[]
+    players.clear()
     for player in all_hands:
         all_hands[player]['hand']=[]
-        ace_counter[player]['ace']={}
+        ace_counter[player]['Ace']={}
+        all_hands[player]['point']=0
 
 
 def calculate_player(player):
     hand_sum = 0
     temporary_hand=all_hands[player]['hand']
     ace_control=False
+    previous_point = all_hands[player]['point']
+    last_card = values[temporary_hand[-1][1]]
+    new_point = last_card + previous_point
+
+    def ace_justifier():
+        global hand_sum
+  
 
     for i in range(0,len(temporary_hand)):
-        if player==username:
-            if temporary_hand[i][1]=='Ace' and ace_counter[player]['Ace'][i] =11 :
-                ace_choice = input("Do you want to change your Ace's point to 1\n Press 'y' for YES 'n' for NO!\n")
-                if ace_choice == 'y':
+
+        if temporary_hand[i][1]=='Ace':
+            try:
+                ace_value = ace_counter[player]['Ace'][i]
+                if new_point > 21:
                     ace_counter[player]['Ace'][i]=1
                     hand_sum += 1
                 else:
                     ace_counter[player]['Ace'][i]=11
-                    hand_sum += values[temporary_hand[i][1]]
-            else:
-                hand_sum += values[temporary_hand[i][1]]
+                    hand_sum += 11      
+                
+            except:
+                if new_point > 21:
+                    ace_counter[player]['Ace'][i]=1
+                    hand_sum += 1
+                else:
+                    ace_counter[player]['Ace'][i]=11
+                    hand_sum += 11    
         else:
-            if temporary_hand[i][1]=='Ace':
-                ace_counter[player]['Ace'][i] = 11
-                ace_control=True
             hand_sum += values[temporary_hand[i][1]]
-            if hand_sum > 21 and ace_control == True and ace_counter[player]['Ace'][i] == 11:
-                ace_counter[player]['Ace'][i] = 1
-                hand_sum -= 10
-                           
+
     all_hands[player]['point']=hand_sum
 
 
@@ -286,8 +294,9 @@ while playing == True:
         else:
             winner = players[i+1]
     
-    show_winning_hand(winner)
-    give_price(winner)
+    winners =control_winners(winner)
+    show_winning_hand(winners)
+    give_price(winners)
     
     time.sleep(2)
 
