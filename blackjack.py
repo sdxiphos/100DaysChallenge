@@ -277,7 +277,7 @@ while playing == True:
     
 
     while bet_is_bet==True:
-        user_bet = int(input('How much are you going to bed?\n'))
+        user_bet = int(input('How much are you going to bet?\n'))
         if user_bet > all_hands[username]['bank']:
             bank = all_hands[username]['bank']
             print(f'Please take a bet below your current cash in the bank: {bank}\n')
