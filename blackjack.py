@@ -66,6 +66,7 @@ def bet_to_game(player,bet):
 
 
 def show_hand(username):
+    your_hand=''
     dealer_card=all_hands['Dealer']['hand'][0]
     print(f"The Dealer's first card is: {dealer_card[0]} of {dealer_card[1]}")
     print(art.deck[ranks.index(dealer_card[1])])
@@ -76,6 +77,7 @@ def show_hand(username):
     for card in user_hand:
         print(art.deck[ranks.index(card[1])])
         print(f'{card[0]} of {card[1]}')
+
     user_hand_point=all_hands[username]['point']
     print(f'Your hand has {user_hand_point}!\n')
 
@@ -106,7 +108,7 @@ def give_price(winners):
 
     total_bet = 0
     own_bet = 0
-    for player in players:
+    for player in all_hands:
         total_bet += all_hands[player]['bet']
         all_hands[player]['bet']=0
     for winner in winners:
