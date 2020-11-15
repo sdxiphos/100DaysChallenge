@@ -31,6 +31,7 @@ temporary_hand = []
 deck = []
 temporary_deck=()
 players=[]
+busted_players=[]
 controller=''
 print(art.casino)
 print('\n')
@@ -75,6 +76,8 @@ def show_hand(username):
     for card in user_hand:
         print(art.deck[ranks.index(card[1])])
         print(f'{card[0]} of {card[1]}')
+    user_hand_point=all_hands[username]['point']
+    print(f'Your hand has {user_hand_point}!\n')
 
 
 def control_winners(winner):
@@ -162,8 +165,9 @@ def user_hit_stand(player):
 
             if user_choice == 'h':
                 hit(deck,player)
+                calculate_player(player)                
                 show_hand(player)
-                calculate_player(player)
+
 
             else:
                 user_turn = False
@@ -174,11 +178,12 @@ def user_hit_stand(player):
 
 def busted_control(player):
     print(f'{player} Busted!\n')
-    players.remove(player)
+    busted_players.append(player)
 
     
 def clear_data():
     players.clear()
+    busted_players.clear()
     for player in all_hands:
         all_hands[player]['hand']=[]
         ace_counter[player]['Ace']={}
@@ -193,9 +198,6 @@ def calculate_player(player):
     last_card = values[temporary_hand[-1][1]]
     new_point = last_card + previous_point
 
-    def ace_justifier():
-        global hand_sum
-  
 
     for i in range(0,len(temporary_hand)):
 
@@ -203,19 +205,31 @@ def calculate_player(player):
             try:
                 ace_value = ace_counter[player]['Ace'][i]
                 if new_point > 21:
+
                     ace_counter[player]['Ace'][i]=1
                     hand_sum += 1
+                elif ace_counter[player]['Ace'][i] == 1 and new_point <= 21:
+                    ace_counter[player]['Ace'][i]=1
+                    hand_sum += 1      
                 else:
                     ace_counter[player]['Ace'][i]=11
-                    hand_sum += 11      
+                    hand_sum += 11                  
                 
             except:
                 if new_point > 21:
-                    ace_counter[player]['Ace'][i]=1
-                    hand_sum += 1
+                    if hand_sum > 10:
+                        ace_counter[player]['Ace'][i]=1
+                        hand_sum += 1
+                    else:
+                        ace_counter[player]['Ace'][i]=11
+                        hand_sum += 11
                 else:
-                    ace_counter[player]['Ace'][i]=11
-                    hand_sum += 11    
+                    if hand_sum>10:
+                        ace_counter[player]['Ace'][i]=1
+                        hand_sum += 1
+                    else:
+                        ace_counter[player]['Ace'][i]=11
+                        hand_sum += 11    
         else:
             hand_sum += values[temporary_hand[i][1]]
 
@@ -247,10 +261,13 @@ while playing == True:
     for player in players:
         for i in range(0,2):
             hit(deck,player)
-    show_hand(username)
-    calculate_point()
-    
+
     show_balance()
+    calculate_point()
+    show_hand(username)
+
+    
+
     while bet_is_bet==True:
         user_bet = int(input('How much are you going to bed?\n'))
         if user_bet > all_hands[username]['bank']:
@@ -271,20 +288,23 @@ while playing == True:
     for player in players:
         if player==username:
             user_hit_stand(player)
+            show_hand(player)
         else:
-            while all_hands[player]['point']<17:
+            while all_hands[player]['point']<18:
                 hit(deck,player)
                 calculate_player(player)
-                if all_hands[player]['point'] >= 17 :
+                if all_hands[player]['point'] >= 18 :
                     if all_hands[player]['point'] <= 21:
                         print(f'{player} Stand!\n')
                         break
                     else:
                         busted_control(player)
-                        break
+
+    for player in busted_players:
+        players.remove(player)
     
     calculate_point()
-
+    show_hand(username)
     winner = players[0]
 
     for i in range(0,len(players)-1):
