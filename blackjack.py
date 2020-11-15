@@ -116,7 +116,7 @@ def give_price(winners):
 
 
 def show_balance():
-    for player in players:
+    for player in all_hands:
         bank = all_hands[player]['bank']
         print(f'{player} has {bank} dolar in bank!\n')
 
@@ -205,30 +205,33 @@ def calculate_player(player):
             try:
                 ace_value = ace_counter[player]['Ace'][i]
                 if new_point > 21:
-
-                    ace_counter[player]['Ace'][i]=1
-                    hand_sum += 1
+                    if ace_counter[player]['Ace'][i] == 11:
+                        ace_counter[player]['Ace'][i] = 11
+                        hand_sum += 11
+                    else:                      
+                        ace_counter[player]['Ace'][i] = 1
+                        hand_sum += 1
                 elif ace_counter[player]['Ace'][i] == 1 and new_point <= 21:
-                    ace_counter[player]['Ace'][i]=1
+                    ace_counter[player]['Ace'][i] = 1
                     hand_sum += 1      
                 else:
-                    ace_counter[player]['Ace'][i]=11
+                    ace_counter[player]['Ace'][i] = 11
                     hand_sum += 11                  
                 
             except:
                 if new_point > 21:
                     if hand_sum > 10:
-                        ace_counter[player]['Ace'][i]=1
+                        ace_counter[player]['Ace'][i] = 1
                         hand_sum += 1
                     else:
-                        ace_counter[player]['Ace'][i]=11
+                        ace_counter[player]['Ace'][i] = 11
                         hand_sum += 11
                 else:
                     if hand_sum>10:
-                        ace_counter[player]['Ace'][i]=1
+                        ace_counter[player]['Ace'][i] = 1
                         hand_sum += 1
                     else:
-                        ace_counter[player]['Ace'][i]=11
+                        ace_counter[player]['Ace'][i] = 11
                         hand_sum += 11    
         else:
             hand_sum += values[temporary_hand[i][1]]
@@ -244,6 +247,7 @@ user_join_game(username,user_bank)
 
 
 while playing == True:
+    time.sleep(1)
     bet_is_bet=True
 
     deck_creater()
@@ -263,8 +267,10 @@ while playing == True:
             hit(deck,player)
 
     show_balance()
+    time.sleep(2)
     calculate_point()
     show_hand(username)
+    time.sleep(1)
 
     
 
@@ -289,6 +295,7 @@ while playing == True:
         if player==username:
             user_hit_stand(player)
             show_hand(player)
+            time.sleep(1)
         else:
             while all_hands[player]['point']<18:
                 hit(deck,player)
@@ -305,6 +312,7 @@ while playing == True:
     
     calculate_point()
     show_hand(username)
+    time.sleep(2)
     winner = players[0]
 
     for i in range(0,len(players)-1):
@@ -321,6 +329,7 @@ while playing == True:
     time.sleep(2)
 
     show_balance()
+    time.sleep(1)
     
     is_play_again = input('Do you want to play again! Press "y" for YES "n" for NO!\n').lower()
 
