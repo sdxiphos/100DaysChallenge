@@ -2,37 +2,38 @@ import random
 import time
 import ascii_art as art
 
+# change it in Pycharm
 
 suits = ['Hearts', 'Diamonds', 'Spades', 'Clubs']
 ranks = ['Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten', 'Jack', 'Queen', 'King', 'Ace']
 values = {
-    'Two':2, 'Three':3, 'Four':4, 'Five':5, 'Six':6, 'Seven':7,
-    'Eight':8, 'Nine':9, 'Ten':10, 'Jack':10, 'Queen':10, 'King':10, 'Ace':11
+    'Two': 2, 'Three': 3, 'Four': 4, 'Five': 5, 'Six': 6, 'Seven': 7,
+    'Eight': 8, 'Nine': 9, 'Ten': 10, 'Jack': 10, 'Queen': 10, 'King': 10, 'Ace': 11
 }
-ace_counter={
-    'Dealer' : {'Ace' : {}},
-    'Xiphosian' : {'Ace' : {}},
-    'Berdan' : {'Ace' : {}},
-    'Devonie' : {'Ace' : {}} 
+ace_counter = {
+    'Dealer': {'Ace': {}},
+    'Xiphosian': {'Ace': {}},
+    'Berdan': {'Ace': {}},
+    'Devonie': {'Ace': {}}
 }
 
-opponents = ['Xiphosian','Berdan','Devonie','Dealer']
+opponents = ['Xiphosian', 'Berdan', 'Devonie', 'Dealer']
 all_hands = {
-    'Dealer' : {'hand' : [], 'point' : 0, 'bank' : 300, 'bet':0},
-    'Xiphosian' : {'hand' : [], 'point' : 0, 'bank' : 300, 'bet':0},
-    'Berdan' : {'hand' : [], 'point' : 0, 'bank' : 300, 'bet':0},
-    'Devonie' : {'hand' : [], 'point' : 0, 'bank' : 300, 'bet':0}
+    'Dealer': {'hand': [], 'point': 0, 'bank': 300, 'bet': 0},
+    'Xiphosian': {'hand': [], 'point': 0, 'bank': 300, 'bet': 0},
+    'Berdan': {'hand': [], 'point': 0, 'bank': 300, 'bet': 0},
+    'Devonie': {'hand': [], 'point': 0, 'bank': 300, 'bet': 0}
 }
 
 playing = True
-ace_control=False
-winners=[]
-temporary_hand = []
+ace_control = False
+winners = []
+
 deck = []
-temporary_deck=()
-players=[]
-busted_players=[]
-controller=''
+
+players = []
+busted_players = []
+controller = ''
 print(art.casino)
 print('\n')
 time.sleep(0.7)
@@ -43,9 +44,10 @@ time.sleep(1)
 
 
 def deck_creater():
+    temporary_deck = ()
     for suit in suits:
         for rank in ranks:
-            temporary_deck=(suit,rank)
+            temporary_deck = (suit, rank)
             deck.append(temporary_deck)
 
 
@@ -53,37 +55,37 @@ def deck_shuffle():
     random.shuffle(deck)
 
 
-def hit(source,target):
-    temporary_hand=all_hands[target]['hand']
+def hit(source, target):
+    temporary_hand = []
+    temporary_hand = all_hands[target]['hand']
     temporary_hand.append(source.pop())
-    all_hands[target]['hand'] = temporary_hand    
-    temporary_hand=[]
-    
+    all_hands[target]['hand'] = temporary_hand
+    temporary_hand = []
 
-def bet_to_game(player,bet):
-    all_hands[player]['bank']-=bet
-    all_hands[player]['bet']+=bet
+
+def bet_to_game(player, bet):
+    all_hands[player]['bank'] -= bet
+    all_hands[player]['bet'] += bet
 
 
 def show_hand(username):
-    your_hand=''
-    dealer_card=all_hands['Dealer']['hand'][0]
+    dealer_card = all_hands['Dealer']['hand'][0]
     print(f"The Dealer's first card is: {dealer_card[0]} of {dealer_card[1]}")
     print(art.deck[ranks.index(dealer_card[1])])
     print('\n')
-    user_hand=all_hands[username]['hand']
+    user_hand = all_hands[username]['hand']
     print('Your hand:\n')
 
     for card in user_hand:
         print(art.deck[ranks.index(card[1])])
         print(f'{card[0]} of {card[1]}')
 
-    user_hand_point=all_hands[username]['point']
+    user_hand_point = all_hands[username]['point']
     print(f'Your hand has {user_hand_point}!\n')
 
 
 def control_winners(winner):
-    winners=[]
+    winners = []
     winners.append(winner)
     for player in players:
         if player != winner and all_hands[player]['point'] == all_hands[winner]['point']:
@@ -94,27 +96,24 @@ def control_winners(winner):
 
 
 def show_winning_hand(winner):
-
     for winner in winners:
         print(f'{winner} win the game!\n')
-        user_hand=[]
-        user_hand=all_hands[winner]['hand']
+        user_hand = []
+        user_hand = all_hands[winner]['hand']
         for card in user_hand:
             print(art.deck[ranks.index(card[1])])
             print(f'{card[0]} of {card[1]}')
 
 
 def give_price(winners):
-
     total_bet = 0
     own_bet = 0
     for player in all_hands:
         total_bet += all_hands[player]['bet']
-        all_hands[player]['bet']=0
+        all_hands[player]['bet'] = 0
     for winner in winners:
-        own_bet = int(total_bet/len(winners))
+        own_bet = int(total_bet / len(winners))
         all_hands[winner]['bank'] += own_bet
-        
 
 
 def show_balance():
@@ -123,20 +122,20 @@ def show_balance():
         print(f'{player} has {bank} dolar in bank!\n')
 
 
-def user_join_game(username,bank):
-    join_hand={'hand':[]}
-    join_hand['point']=0
-    join_hand['bank']=bank
-    join_hand['bet']=0
-    user_ace={'Ace':{}}
-    all_hands[username]=join_hand
-    ace_counter[username]=user_ace
+def user_join_game(username, bank):
+    join_hand = {'hand': []}
+    join_hand['point'] = 0
+    join_hand['bank'] = bank
+    join_hand['bet'] = 0
+    user_ace = {'Ace': {}}
+    all_hands[username] = join_hand
+    ace_counter[username] = user_ace
 
 
 def join_game(username):
     if all_hands[username]['bank'] > 0:
         players.append(username)
-    
+
         for opponent in opponents:
             if all_hands[opponent]['bank'] > 0:
                 players.append(opponent)
@@ -144,14 +143,13 @@ def join_game(username):
             print("All opponent's account drain out!\n You win all the money!\ Good JOB!\n")
             return False
         else:
-            remain_opponent=len(players)-1
+            remain_opponent = len(players) - 1
             print(f'{remain_opponent} opponent remain!\n')
             return True
 
     else:
         print('You have no many in your bank.\n Leave this place!\n')
         return False
-
 
 
 def calculate_point():
@@ -166,8 +164,8 @@ def user_hit_stand(player):
             user_choice = input('Do you want to hit or stand?\n Press "h" for hit "s" for stand!\n').lower()
 
             if user_choice == 'h':
-                hit(deck,player)
-                calculate_player(player)                
+                hit(deck, player)
+                calculate_player(player)
                 show_hand(player)
 
 
@@ -182,44 +180,41 @@ def busted_control(player):
     print(f'{player} Busted!\n')
     busted_players.append(player)
 
-    
+
 def clear_data():
     players.clear()
     busted_players.clear()
     for player in all_hands:
-        all_hands[player]['hand']=[]
-        ace_counter[player]['Ace']={}
-        all_hands[player]['point']=0
+        all_hands[player]['hand'] = []
+        ace_counter[player]['Ace'] = {}
+        all_hands[player]['point'] = 0
 
 
 def calculate_player(player):
     hand_sum = 0
-    temporary_hand=all_hands[player]['hand']
-    ace_control=False
+    temporary_hand = all_hands[player]['hand']
     previous_point = all_hands[player]['point']
     last_card = values[temporary_hand[-1][1]]
     new_point = last_card + previous_point
 
+    for i in range(0, len(temporary_hand)):
 
-    for i in range(0,len(temporary_hand)):
-
-        if temporary_hand[i][1]=='Ace':
+        if temporary_hand[i][1] == 'Ace':
             try:
-                ace_value = ace_counter[player]['Ace'][i]
                 if new_point > 21:
                     if ace_counter[player]['Ace'][i] == 11:
                         ace_counter[player]['Ace'][i] = 11
                         hand_sum += 11
-                    else:                      
+                    else:
                         ace_counter[player]['Ace'][i] = 1
                         hand_sum += 1
                 elif ace_counter[player]['Ace'][i] == 1 and new_point <= 21:
                     ace_counter[player]['Ace'][i] = 1
-                    hand_sum += 1      
+                    hand_sum += 1
                 else:
                     ace_counter[player]['Ace'][i] = 11
-                    hand_sum += 11                  
-                
+                    hand_sum += 11
+
             except:
                 if new_point > 21:
                     if hand_sum > 10:
@@ -229,28 +224,25 @@ def calculate_player(player):
                         ace_counter[player]['Ace'][i] = 11
                         hand_sum += 11
                 else:
-                    if hand_sum>10:
+                    if hand_sum > 10:
                         ace_counter[player]['Ace'][i] = 1
                         hand_sum += 1
                     else:
                         ace_counter[player]['Ace'][i] = 11
-                        hand_sum += 11    
+                        hand_sum += 11
         else:
             hand_sum += values[temporary_hand[i][1]]
 
-    all_hands[player]['point']=hand_sum
-
+    all_hands[player]['point'] = hand_sum
 
 
 username = input('Please give your name for joining game!\n')
 user_bank = int(input('Please give your current bank cash\n'))
-user_join_game(username,user_bank)
-
-
+user_join_game(username, user_bank)
 
 while playing == True:
     time.sleep(1)
-    bet_is_bet=True
+    bet_is_bet = True
 
     deck_creater()
     time.sleep(0.4)
@@ -259,14 +251,14 @@ while playing == True:
 
     if join_game(username) == False:
         print('GAME OVER!\n')
-        playing=False
+        playing = False
         break
     else:
         pass
 
     for player in players:
-        for i in range(0,2):
-            hit(deck,player)
+        for i in range(0, 2):
+            hit(deck, player)
 
     show_balance()
     time.sleep(2)
@@ -274,35 +266,33 @@ while playing == True:
     show_hand(username)
     time.sleep(1)
 
-    
-
-    while bet_is_bet==True:
+    while bet_is_bet == True:
         user_bet = int(input('How much are you going to bet?\n'))
         if user_bet > all_hands[username]['bank']:
             bank = all_hands[username]['bank']
             print(f'Please take a bet below your current cash in the bank: {bank}\n')
         else:
-            bet_is_bet=False
+            bet_is_bet = False
 
     for player in players:
-        bank=all_hands[player]['bank']
+        bank = all_hands[player]['bank']
         if user_bet >= all_hands[player]['bank']:
             all_in = all_hands[player]['bank']
             print(f'{player} is going to bet all in!\n')
-            bet_to_game(player,all_in)
+            bet_to_game(player, all_in)
         else:
-            bet_to_game(player,user_bet)
-    
+            bet_to_game(player, user_bet)
+
     for player in players:
-        if player==username:
+        if player == username:
             user_hit_stand(player)
             show_hand(player)
             time.sleep(1)
         else:
-            while all_hands[player]['point']<18:
-                hit(deck,player)
+            while all_hands[player]['point'] < 18:
+                hit(deck, player)
                 calculate_player(player)
-                if all_hands[player]['point'] >= 18 :
+                if all_hands[player]['point'] >= 18:
                     if all_hands[player]['point'] <= 21:
                         print(f'{player} Stand!\n')
                         break
@@ -311,28 +301,28 @@ while playing == True:
 
     for player in busted_players:
         players.remove(player)
-    
+
     calculate_point()
     show_hand(username)
     time.sleep(2)
     winner = players[0]
 
-    for i in range(0,len(players)-1):
+    for i in range(0, len(players) - 1):
 
-        if all_hands[winner]['point'] > all_hands[players[i+1]]['point'] :
+        if all_hands[winner]['point'] > all_hands[players[i + 1]]['point']:
             winner = winner
         else:
-            winner = players[i+1]
-    
-    winners =control_winners(winner)
+            winner = players[i + 1]
+
+    winners = control_winners(winner)
     show_winning_hand(winners)
     give_price(winners)
-    
+
     time.sleep(2)
 
     show_balance()
     time.sleep(1)
-    
+
     is_play_again = input('Do you want to play again! Press "y" for YES "n" for NO!\n').lower()
 
     if is_play_again == 'y':
@@ -340,7 +330,3 @@ while playing == True:
     else:
         playing = False
         print('Good Day!\n')
-
-
-    
-    
