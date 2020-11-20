@@ -17,7 +17,7 @@ def player_choose():
     player_count = int(screen.textinput("Player Count", "How many players are going to bet: "))
 
     for i in range(player_count):
-        bet = screen.textinput("Let's Get Your Bet", "Pleace choose your turtle? Enter a color: ")
+        bet = screen.textinput("Let's Get Your Bet", "Please choose your turtle? Enter a color: ")
         bets.append(bet)
 
 
