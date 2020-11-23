@@ -29,9 +29,10 @@ class Scoreboard(Turtle):
             line_y -= 50
 
     def update_scoreboard(self, player):
+        self.clear()
         if player == 0:
             self.player_score += 1
         else:
             self.opponent_score += 1
-        scoreboard.clear()
-        scoreboard.write(f"{self.opponent_score}            {self.player_score}", align=ALIGN, font=FONT)
+
+        self.write(f"{self.opponent_score}            {self.player_score}", align=ALIGN, font=FONT)
