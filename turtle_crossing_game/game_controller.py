@@ -11,6 +11,7 @@ screen.colormode(255)
 screen.tracer(0)
 screen.setup(800, 700)
 game_on = True
+life = 3
 
 
 def create_sidewalk():
@@ -59,17 +60,31 @@ def level_up_controller():
 
 
 def car_hit_controller():
+    global game_on
     for car in cars.cars:
-        if car.distance(player) <= 5:
+        if car.distance(player) <= 25:
             print('Player hit the car!')
-            level_counter.lose_life()
+            game_on = level_counter.lose_life()
             time.sleep(1)
+
+            if not game_on:
+                choose = screen.textinput('Game Over', 'Do you want to play again? Press y or n! ')
+                if choose.lower() == 'y':
+                    level_counter.reset_counter()
+                    screen.listen()
+                    game_on = True
+
             player.start_position()
+            break
 
 
 while game_on:
+
     screen.update()
     time.sleep(0.1)
+    cars.create_car()
     cars.car_mover()
     car_hit_controller()
     level_up_controller()
+
+screen.exitonclick()

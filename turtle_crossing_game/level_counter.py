@@ -6,6 +6,7 @@ class LevelCounter(Turtle):
     def __init__(self):
         super().__init__()
         self.lives = []
+        self.live_counter = 3
         self.level = 0
         self.counter = []
         self.create_counter()
@@ -34,8 +35,11 @@ class LevelCounter(Turtle):
             self.lives.append(life_turtle)
 
     def lose_life(self):
-        self.lives[0].color("pink")
-        self.lives.remove(0)
+        self.lives[self.live_counter-1].color("pink")
+        self.live_counter -= 1
+        if self.live_counter == 0:
+            return False
+        return True
 
     def write_score(self):
         self.counter[0].write(f"Level: {self.level}", font=FONT)
@@ -44,3 +48,11 @@ class LevelCounter(Turtle):
         self.level += 1
         self.counter[0].clear()
         self.write_score()
+
+    def reset_counter(self):
+        self.live_counter = 3
+        self.level = 0
+        self.update_counter()
+        for live in self.lives:
+            live.color("red")
+
